@@ -47,18 +47,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           return const Center(child: Text('Something went wrong!'));
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<AttendanceBloc>().add(UpdateCurrentLocationEvent());
-        },
-        tooltip: 'Refresh Location',
-        child: const Icon(Icons.refresh),
-      ),
     );
   }
 
   Widget _buildBody(BuildContext context, AttendanceLoaded state) {
-    bool isWithinRadius = state.distanceInMeters <= 50.0;
+    bool isWithinRadius = state.currentLocation != null && state.distanceInMeters <= 50.0;
     bool hasOfficeLocation = state.officeLocation != null;
 
     return Padding(
@@ -94,7 +87,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '\${state.distanceInMeters.toStringAsFixed(2)} meters',
+                      '${state.distanceInMeters.round().toString()} meters',
                       style: TextStyle(
                         fontSize: 24,
                         color: isWithinRadius ? Colors.green : Colors.red,

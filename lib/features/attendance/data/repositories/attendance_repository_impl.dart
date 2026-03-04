@@ -24,8 +24,13 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
     } on LocationFailure catch (e) {
       return Left(e);
     } catch (e) {
-      return const Left(ServerFailure());
+      return Left(ServerFailure(message: 'Unexpected Error: \${e.toString()}'));
     }
+  }
+
+  @override
+  Stream<Either<Failure, LocationEntity>> getLocationStream() {
+    return deviceDataSource.getLocationStream().map((location) => Right(location));
   }
 
   @override

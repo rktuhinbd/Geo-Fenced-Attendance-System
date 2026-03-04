@@ -7,4 +7,5 @@ abstract class AttendanceRepository {
   Future<Either<Failure, void>> setOfficeLocation(LocationEntity location);
   Future<Either<Failure, LocationEntity>> getOfficeLocation();
   Future<Either<Failure, void>> markAttendance(LocationEntity currentLocation, LocationEntity officeLocation);
+  Stream<Either<Failure, LocationEntity>> getLocationStream();
 }

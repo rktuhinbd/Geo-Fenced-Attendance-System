@@ -8,6 +8,7 @@ import 'features/attendance/domain/usecases/get_current_location.dart';
 import 'features/attendance/domain/usecases/get_office_location.dart';
 import 'features/attendance/domain/usecases/mark_attendance.dart';
 import 'features/attendance/domain/usecases/set_office_location.dart';
+import 'features/attendance/domain/usecases/get_location_stream.dart';
 import 'features/attendance/presentation/bloc/attendance_bloc.dart';
 
 final sl = GetIt.instance;
@@ -24,6 +25,7 @@ Future<void> init() async {
         getOfficeLocation: sl(),
         setOfficeLocation: sl(),
         markAttendance: sl(),
+        getLocationStream: sl(),
       ));
 
   // Use cases
@@ -31,6 +33,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetOfficeLocation(sl()));
   sl.registerLazySingleton(() => SetOfficeLocation(sl()));
   sl.registerLazySingleton(() => MarkAttendance(sl()));
+  sl.registerLazySingleton(() => GetLocationStream(sl()));
 
   // Repository
   sl.registerLazySingleton<AttendanceRepository>(
