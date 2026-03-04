@@ -1,0 +1,7 @@
+Analyzing IntelligentTask-1...                                  
+
+   info - The type parameter name 'Type' matches a visible type name - lib\core\usecases\usecase.dart:5:24 - avoid_types_as_parameter_names
+   info - The constant name 'CACHED_OFFICE_LOCATION' isn't a lowerCamelCase identifier - lib\features\attendance\data\datasources\attendance_local_data_source.dart:11:7 - constant_identifier_names
+   info - Parameters ''latitude' and 'longitude'' could be super parameters - lib\features\attendance\data\models\location_model.dart:4:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\features\attendance\presentation\pages\attendance_screen.dart:8:9 - use_super_parameters
+
