@@ -46,13 +46,15 @@ The project follows **Clean Architecture** principles, separated into three main
 
 ## Download APK
 You can download the latest release APK from the link below:
-- [Download Release APK (Google Drive/GitHub Releases)](https://github.com/your-username/geo-fenced-attendance-system/releases/latest)
+- [🚀 Download Release APK](https://github.com/rktuhinbd/IntelligentTask-1/releases/download/v1.0.0/app-release.apk)
+
+*Note: If the link above isn't active yet, please ensure you have created a release tagged `v1.0.0` on GitHub and uploaded the `app-release.apk` file.*
 
 ## How to Run
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/geo-fenced-attendance-system.git
-   cd geo-fenced-attendance-system
+   git clone https://github.com/rktuhinbd/IntelligentTask-1.git
+   cd IntelligentTask-1
    ```
 2. **Install dependencies**:
    ```bash
@@ -62,10 +64,6 @@ You can download the latest release APK from the link below:
    ```bash
    flutter run
    ```
-
-## Screenshots
-*(Add your screenshots here)*
-![App Screenshot](https://via.placeholder.com/300x600?text=Attendance+Screen)
 
 ---
 Developed as a demonstration of Clean Architecture and Real-Time Geo-Fencing in Flutter.
