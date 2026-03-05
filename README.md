@@ -46,9 +46,9 @@ The project follows **Clean Architecture** principles, separated into three main
 
 ## Download APK
 You can download the latest release APK from the link below:
-- [🚀 Download Release APK](https://github.com/rktuhinbd/Geo-Fenced-Attendance-System/releases/download/v1.0.0/app-release.apk)
+- [🚀 Download Release APK](https://github.com/rktuhinbd/Geo-Fenced-Attendance-System/raw/master/assets/apk/app-release.apk)
 
-*Note: If the link above returns a 404, please ensure you have created a release tagged `v1.0.0` on GitHub and uploaded the `app-release.apk` file from the `build` folder.*
+*Note: I have moved the built APK to `assets/apk/app-release.apk`. As soon as you push your code to GitHub, the link above will work instantly!*
 
 ## How to Run
 1. **Clone the repository**:
