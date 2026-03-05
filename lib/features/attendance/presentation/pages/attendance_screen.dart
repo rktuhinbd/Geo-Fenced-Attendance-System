@@ -86,13 +86,30 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.circle, color: Colors.green, size: 8),
+                        const SizedBox(width: 4),
+                        const Text(
+                          'LIVE',
+                          style: TextStyle(fontSize: 10, color: Colors.green, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
                     Text(
-                      '${state.distanceInMeters.round().toString()} meters',
+                      '${state.distanceInMeters.toStringAsFixed(1)} meters',
                       style: TextStyle(
                         fontSize: 24,
                         color: isWithinRadius ? Colors.green : Colors.red,
                         fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Accuracy: ±${state.currentLocation!.accuracy?.toStringAsFixed(1) ?? 'Unknown'}m',
+                      style: const TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ],
                 ],

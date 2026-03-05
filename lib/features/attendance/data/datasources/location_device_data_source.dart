@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:geolocator/geolocator.dart';
 import '../models/location_model.dart';
 import '../../../../core/error/failures.dart';
@@ -16,11 +17,14 @@ class LocationDeviceDataSourceImpl implements LocationDeviceDataSource {
       Position position = await Geolocator.getCurrentPosition(
         locationSettings: const LocationSettings(
           accuracy: LocationAccuracy.best,
-          timeLimit: Duration(seconds: 10),
+          timeLimit: Duration(seconds: 15),
         ),
-      ).timeout(const Duration(seconds: 15));
+      );
       return LocationModel(
-          latitude: position.latitude, longitude: position.longitude);
+        latitude: position.latitude,
+        longitude: position.longitude,
+        accuracy: position.accuracy,
+      );
     } catch (e) {
       throw LocationFailure(message: 'GPS Error: ${e.toString()}');
     }
@@ -28,17 +32,46 @@ class LocationDeviceDataSourceImpl implements LocationDeviceDataSource {
 
   @override
   Stream<LocationModel> getLocationStream() {
-    return Geolocator.getPositionStream(
-      locationSettings: const LocationSettings(
-        accuracy: LocationAccuracy.best,
-        distanceFilter: 5, // Filter GPS drift; common walking threshold is ~5m
-      ),
-    ).map((position) => LocationModel(
-          latitude: position.latitude,
-          longitude: position.longitude,
-        )).handleError((error) {
-           throw LocationFailure(message: 'Stream GPS Error: ${error.toString()}');
-        });
+    LocationSettings settings;
+    
+    // Using platform-specific settings for maximum frequency and reliability
+    try {
+      if (Platform.isAndroid) {
+        settings = AndroidSettings(
+          accuracy: LocationAccuracy.high,
+          distanceFilter: 0,
+          intervalDuration: const Duration(seconds: 1), // Only for AndroidSettings
+        );
+      } else if (Platform.isIOS || Platform.isMacOS) {
+        settings = AppleSettings(
+          accuracy: LocationAccuracy.high,
+          distanceFilter: 0,
+          activityType: ActivityType.fitness,
+          pauseLocationUpdatesAutomatically: false,
+          showBackgroundLocationIndicator: true,
+        );
+      } else {
+        settings = const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          distanceFilter: 0,
+        );
+      }
+    } catch (e) {
+      settings = const LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 0,
+      );
+    }
+
+    return Geolocator.getPositionStream(locationSettings: settings)
+        .map((position) => LocationModel(
+              latitude: position.latitude,
+              longitude: position.longitude,
+              accuracy: position.accuracy,
+            ))
+        .handleError((error) {
+      throw LocationFailure(message: 'Stream GPS Error: ${error.toString()}');
+    });
   }
 
   Future<void> _checkPermissions() async {

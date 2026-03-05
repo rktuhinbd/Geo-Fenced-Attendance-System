@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:geolocator/geolocator.dart';
 import '../../../../core/error/failures.dart';
-import '../../../../core/utils/haversine.dart';
 import '../../domain/entities/location.dart';
 import '../../domain/repositories/attendance_repository.dart';
 import '../datasources/attendance_local_data_source.dart';
@@ -58,7 +58,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   @override
   Future<Either<Failure, void>> markAttendance(LocationEntity currentLocation, LocationEntity officeLocation) async {
     try {
-      double distance = Haversine.calculateDistance(
+      double distance = Geolocator.distanceBetween(
         currentLocation.latitude,
         currentLocation.longitude,
         officeLocation.latitude,
@@ -69,10 +69,10 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
         // Attendance successfully marked logic goes here
         return const Right(null);
       } else {
-        return Left(LocationFailure(message: 'You are too far from the office. Distance is \${distance.toStringAsFixed(2)} meters.'));
+        return Left(LocationFailure(message: 'You are too far from the office. Distance is ${distance.toStringAsFixed(1)} meters.'));
       }
     } catch (e) {
-      return const Left(ServerFailure(message: 'Unexpected error marking attendance.'));
+      return Left(ServerFailure(message: 'Unexpected Error: ${e.toString()}'));
     }
   }
 }

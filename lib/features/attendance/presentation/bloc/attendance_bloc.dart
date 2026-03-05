@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../../../../core/utils/haversine.dart';
 import '../../domain/usecases/get_current_location.dart';
 import '../../domain/usecases/get_location_stream.dart';
 import '../../domain/usecases/get_office_location.dart';
@@ -49,11 +49,32 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       },
     );
 
+    // Initial check for current location to avoid starting at 0.0 if already far
+    final currentLocationEither = await getCurrentLocation(NoParams());
+    currentLocationEither.fold(
+      (_) => null,
+      (currentLoc) {
+        double dist = 0;
+        if (state is AttendanceLoaded) {
+          final s = state as AttendanceLoaded;
+          if (s.officeLocation != null) {
+            dist = Geolocator.distanceBetween(
+              currentLoc.latitude, currentLoc.longitude,
+              s.officeLocation!.latitude, s.officeLocation!.longitude
+            );
+          }
+          emit(s.copyWith(currentLocation: currentLoc, distanceInMeters: dist));
+        }
+      }
+    );
+
     // Start real-time tracking
-    _locationSubscription?.cancel();
+    await _locationSubscription?.cancel();
     _locationSubscription = getLocationStream().listen((result) {
       result.fold(
-        (failure) => add(UpdateCurrentLocationEvent()), // Fallback to manual on stream error
+        (failure) {
+          // Silent fallback or log error if needed
+        },
         (location) => add(RealTimeLocationUpdateEvent(location)),
       );
     });
@@ -90,6 +111,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
           },
           (_) {
             emit(const AttendanceSuccess(message: 'Office location set successfully!'));
+            // Important: immediately update with the new office info
             emit(AttendanceLoaded(
               officeLocation: currentLocation,
               currentLocation: currentLocation,
@@ -107,7 +129,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       final currentState = state as AttendanceLoaded;
       double distance = 0;
       if (currentState.officeLocation != null) {
-        distance = Haversine.calculateDistance(
+        distance = Geolocator.distanceBetween(
           event.location.latitude,
           event.location.longitude,
           currentState.officeLocation!.latitude,
@@ -135,7 +157,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         (currentLocation) {
           double distance = 0;
           if (currentState.officeLocation != null) {
-            distance = Haversine.calculateDistance(
+            distance = Geolocator.distanceBetween(
               currentLocation.latitude,
               currentLocation.longitude,
               currentState.officeLocation!.latitude,
