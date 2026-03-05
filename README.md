@@ -46,15 +46,15 @@ The project follows **Clean Architecture** principles, separated into three main
 
 ## Download APK
 You can download the latest release APK from the link below:
-- [🚀 Download Release APK](https://github.com/rktuhinbd/IntelligentTask-1/releases/download/v1.0.0/app-release.apk)
+- [🚀 Download Release APK](https://github.com/rktuhinbd/Geo-Fenced-Attendance-System/releases/download/v1.0.0/app-release.apk)
 
-*Note: If the link above isn't active yet, please ensure you have created a release tagged `v1.0.0` on GitHub and uploaded the `app-release.apk` file.*
+*Note: If the link above returns a 404, please ensure you have created a release tagged `v1.0.0` on GitHub and uploaded the `app-release.apk` file from the `build` folder.*
 
 ## How to Run
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/rktuhinbd/IntelligentTask-1.git
-   cd IntelligentTask-1
+   git clone https://github.com/rktuhinbd/Geo-Fenced-Attendance-System.git
+   cd Geo-Fenced-Attendance-System
    ```
 2. **Install dependencies**:
    ```bash
