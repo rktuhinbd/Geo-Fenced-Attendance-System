@@ -1,13 +1,6 @@
 # Geo-Fenced Attendance System
 
-A production-ready Flutter application for location-based attendance marking. The system ensures that employees can only mark their attendance when they are physically within a 50-meter radius of the designated office location.
-
-## Features
-- **Office Setup**: Set the current GPS location as the "Office Location".
-- **Real-Time Tracking**: Live distance indicator that updates as the user moves.
-- **Geo-Fencing**: Dynamic "Mark Attendance" button enabled only within a 50m radius.
-- **Persistence**: Office location is saved locally using Hive.
-- **Permissions**: Graceful handling of location permissions and GPS service status.
+A production-ready Flutter application for location-based attendance marking. This system ensures that attendance can only be marked when the user is physically within a 50-meter radius of the designated office location.
 
 ## Technical Stack
 - **Framework**: [Flutter](https://flutter.dev/)
@@ -19,36 +12,27 @@ A production-ready Flutter application for location-based attendance marking. Th
 - **Object Comparison**: [equatable](https://pub.dev/packages/equatable)
 
 ## Project Structure / Approaches
-The project follows **Clean Architecture** principles, separated into three main layers:
+The project is built using **Clean Architecture** principles to ensure scalability and maintainability.
 
-1. **Domain Layer**: Contains Business Logic.
-   - **Entities**: Simple data objects (`LocationEntity`).
-   - **Repositories**: Abstract definitions of data operations.
-   - **Use Cases**: Specific business rules (`MarkAttendance`, `SetOfficeLocation`, `GetLocationStream`).
+### Architecture Layers:
+1. **Domain Layer**: Contains the core business logic, entities (`LocationEntity`), and abstract repository definitions. Use cases like `GetLocationStream` and `SetOfficeLocation` are defined here.
+2. **Data Layer**: Implements the repositories. It manages data from the `LocationDeviceDataSource` (Geolocator API) and `AttendanceLocalDataSource` (Hive persistence).
+3. **Presentation Layer**: Handles the UI and state. The `AttendanceBloc` manages real-time location events and updates the UI state dynamically.
 
-2. **Data Layer**: Handles data retrieval and storage.
-   - **Models**: Data transfer objects with JSON/Hive serialization.
-   - **Data Sources**: Remote (Geolocator) and Local (Hive) implementations.
-   - **Repository Implementation**: Coordinates between different data sources.
+### Key Classes:
+- `AttendanceBloc`: Manages all location-based states (Initial, Loading, Loaded, Success, Error).
+- `LocationDeviceDataSourceImpl`: Handles high-frequency GPS updates and permission requests.
+- `AttendanceRepositoryImpl`: Coordinates the flow between location hardware and local storage.
 
-3. **Presentation Layer**: UI and State Management.
-   - **BLoC**: `AttendanceBloc` manages all events like `CheckInitialLocationEvent`, `SetOfficeLocationEvent`, and `RealTimeLocationUpdateEvent`.
-   - **Widgets**: Reusable components and the main `AttendanceScreen`.
+## Generative AI Usage
+This project was developed with the assistance of Generative AI (Antigravity). AI was utilized for architectural planning, implementing the real-time location stream, and optimizing GPS accuracy.
 
-## Screenshots
-
-<p align="center">
-  <img src="assets/screenshots/scene_1_location_permission.jpg" width="200" alt="Location Permission">
-  <img src="assets/screenshots/scene_2_location_not_set_yet.jpg" width="200" alt="Location Not Set">
-  <img src="assets/screenshots/scene_3_location_set_success.jpg" width="200" alt="Location Set Success">
-  <img src="assets/screenshots/scene_4_attendance_taken.jpg" width="200" alt="Attendance Taken">
-</p>
-
-## Download APK
-You can download the latest release APK from the link below:
-- [🚀 Download Release APK](https://github.com/rktuhinbd/Geo-Fenced-Attendance-System/raw/master/assets/apk/app-release.apk)
-
-*Note: I have moved the built APK to `assets/apk/app-release.apk`. As soon as you push your code to GitHub, the link above will work instantly!*
+### Essential Prompts Used:
+1. *"Act as a senior Flutter developer. Generate a clean architecture structure for a Geo-Fenced Attendance system using BLoC."*
+2. *"Implement a real-time location stream using the geolocator package that updates every meter for footstep-level sensitivity."*
+3. *"The GPS distance is flickering while the phone is stationary. How can I implement a distance filter and rounded display to stabilize the UI?"*
+4. *"Use Geolocator.distanceBetween() for the most accurate calculation and explain how to add platform-specific settings for Android."*
+5. *"Help me organize the final README.md following specific documentation guidelines including screenshots and APK links."*
 
 ## How to Run
 1. **Clone the repository**:
@@ -64,6 +48,21 @@ You can download the latest release APK from the link below:
    ```bash
    flutter run
    ```
+
+## Screenshots
+<p align="center">
+  <img src="assets/screenshots/scene_1_location_permission.jpg" width="200" alt="Location Permission">
+  <img src="assets/screenshots/scene_2_location_not_set_yet.jpg" width="200" alt="Location Not Set">
+  <img src="assets/screenshots/scene_3_location_set_success.jpg" width="200" alt="Location Set Success">
+  <img src="assets/screenshots/scene_4_attendance_taken.jpg" width="200" alt="Attendance Taken">
+</p>
+
+## Deliverables & APK Submission
+### Release APK
+The production-ready release APK is included in the repository for easy access.
+- **[🚀 Download Release APK](https://github.com/rktuhinbd/Geo-Fenced-Attendance-System/raw/master/assets/apk/app-release.apk)**
+
+*Note: The APK is hosted within the `assets/apk/` directory of the master branch. The link above will be active once the code is pushed to GitHub.*
 
 ---
 Developed as a demonstration of Clean Architecture and Real-Time Geo-Fencing in Flutter.
