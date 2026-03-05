@@ -35,14 +35,18 @@ The project follows **Clean Architecture** principles, separated into three main
    - **BLoC**: `AttendanceBloc` manages all events like `CheckInitialLocationEvent`, `SetOfficeLocationEvent`, and `RealTimeLocationUpdateEvent`.
    - **Widgets**: Reusable components and the main `AttendanceScreen`.
 
-## Generative AI Usage
-This project was developed with the assistance of Generative AI (Antigravity). AI was used for architectural design, boilerplate generation, and debugging complex GPS behaviors.
+## Screenshots
 
-**Key Prompts Used:**
-- *"Act as a senior Flutter architect. Generate production-ready Flutter code using Clean Architecture and BLoC pattern for a Geo-Fenced Attendance Screen."*
-- *"Implement a real-time distance indicator calculated from the office location using the Haversine formula (later optimized to Geolocator.distanceBetween)."*
-- *"The location check has high jitter when the phone is stationary. How can I stabilize the distance display while keeping it real-time?"* (Led to implementing Low-pass filters/Distance filters).
-- *"Fix the compilation error: No named parameter with the name 'intervalDuration' in LocationSettings."*
+<p align="center">
+  <img src="assets/screenshots/scene_1_location_permission.jpg" width="200" alt="Location Permission">
+  <img src="assets/screenshots/scene_2_location_not_set_yet.jpg" width="200" alt="Location Not Set">
+  <img src="assets/screenshots/scene_3_location_set_success.jpg" width="200" alt="Location Set Success">
+  <img src="assets/screenshots/scene_4_attendance_taken.jpg" width="200" alt="Attendance Taken">
+</p>
+
+## Download APK
+You can download the latest release APK from the link below:
+- [Download Release APK (Google Drive/GitHub Releases)](https://github.com/your-username/geo-fenced-attendance-system/releases/latest)
 
 ## How to Run
 1. **Clone the repository**:
